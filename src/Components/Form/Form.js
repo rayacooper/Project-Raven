@@ -41,7 +41,8 @@ class Form extends Component{
                 <label>Image URL:</label>
                 <input type="text" name="image" value={this.state.image} onChange={(event) => {this.updateInput(event)}}/>
                 <button onClick={() => this.cancelChristmas}>Cancel</button>
-                <button>Add to Inventory</button>
+                <button onClick={ () => {this.props.addThing(this.state)
+                    .then(() => {this.cancelChristmas})}}>Add to Inventory</button>
             </div>
         )
     }

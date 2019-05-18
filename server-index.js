@@ -10,10 +10,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const controller = require('./controller');
-const {PORT, CONNECTION_STRING} = process.env;
+const controller = require('./server/controller');
 
-massive(CONNECTION_STRING)
+massive(process.env.CONNECTION_STRING)
     .then((db)=>{
         console.log(`db is connected`)
         app.set('db', db)
@@ -24,8 +23,9 @@ massive(CONNECTION_STRING)
 
 app.get('/api/inventory', controller.get);
 app.post('/api/inventory', controller.add)
+app.delet(`/api/inventory/:id`, controller.delete)
 
-const port = PORT || 4080;
+const port = process.env.PORT || 4080;
 
 app.listen(port, () => {
     console.log(`App Listening on Port ${port}`)

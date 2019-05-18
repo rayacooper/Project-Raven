@@ -32,14 +32,27 @@ class App extends Component{
   }
 
   componentDidMount() {
+    this.updateList();
+  }
+
+  updateList = () => {
     axios.get('/api/inventory').then((res)=>{
       this.setState({
         inventoryList: res.data
       })
     })
   }
-  addThing(obj){
+
+  addThing = (obj) => {
     axios.post('/api/inventory', obj).then((res) => {
+      this.setState({
+        inventoryList: res.data
+      })
+    })
+  }
+
+  deleteItem = (id) => {
+    axios.delete(`/api/inventory/:${id}`).then((res) => {
       this.setState({
         inventoryList: res.data
       })
@@ -49,8 +62,8 @@ class App extends Component{
   render(){
     return (
       <div className="App">
-        <Dashboard invList={this.state.inventoryList} />
-        <Form />
+        <Dashboard invList={this.state.inventoryList} update={this.updateList} delete={this.props.deleteItem}/>
+        <Form addThing={this.addThing} update={this.updateList}/>
         <Header />
       </div>
     );
